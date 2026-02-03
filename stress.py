@@ -108,5 +108,5 @@ def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
         print(f"\nТест завершен. Данные в {log_file}")
 
 if __name__ == "__main__":
-    # Простой запуск на 5 минут
-    run_stress_test(duration_sec=300)
+    # Стресс тест на час
+    run_stress_test(duration_sec=3600)
