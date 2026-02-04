@@ -45,7 +45,7 @@ def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
         'stress-ng',
         '--cpu', str(cpu_count),
         '--cpu-method', 'all',      # Все методы вычислений
-        '--cpu-ops', '1000000',     # Очень много операций
+        # '--cpu-ops', '1000000',     # Очень много операций
         '--timeout', f'{duration_sec}s',
         '--metrics-brief'
     ]
