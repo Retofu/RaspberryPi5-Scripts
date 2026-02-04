@@ -7,8 +7,9 @@ import subprocess
 import time
 import csv
 from datetime import datetime
+import os
 
-def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
+def run_stress_test(duration_sec=300):
     """
     Запуск 100% нагрузки с записью температуры
     """
@@ -25,6 +26,10 @@ def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
         print("Установите stress-ng: sudo apt install stress-ng")
         return
     
+    # Создаем уникальное имя лог-файла с timestamp
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    log_file = f'cpu_100percent_log_{timestamp}.csv'
+    
     # Получаем количество ядер
     cpu_count = 4  # Для Pi 5
     
@@ -37,6 +42,7 @@ def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
     print(f"\nНагрузка: 100% на {cpu_count} ядра")
     print(f"Длительность: {duration_sec} секунд")
     print(f"Лог-файл: {log_file}")
+    print(f"Полный путь: {os.path.abspath(log_file)}")
     print("\nНажмите Ctrl+C для досрочной остановки")
     print("-" * 60)
     
@@ -77,15 +83,15 @@ def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
             elapsed = time.time() - start_time
             
             # Записываем в лог
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             with open(log_file, 'a', newline='') as f:
                 writer = csv.writer(f)
-                writer.writerow([timestamp, f"{temp:.1f}", "100.0",
+                writer.writerow([current_timestamp, f"{temp:.1f}", "100.0",
                                f"{cpu_percent[0]:.1f}", f"{cpu_percent[1]:.1f}",
                                f"{cpu_percent[2]:.1f}", f"{cpu_percent[3]:.1f}"])
             
             # Выводим статус
-            print(f"[{timestamp}] Temp: {temp:5.1f}°C | CPU: 100% | Time: {elapsed:5.1f}s")
+            print(f"[{current_timestamp}] Temp: {temp:5.1f}°C | CPU: 100% | Time: {elapsed:5.1f}s")
             
             time.sleep(1)
             
@@ -106,6 +112,7 @@ def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
             print(stdout.decode('utf-8'))
         
         print(f"\nТест завершен. Данные в {log_file}")
+        print(f"Полный путь: {os.path.abspath(log_file)}")
 
 if __name__ == "__main__":
     # Стресс тест на час
