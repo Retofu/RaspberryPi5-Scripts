@@ -109,4 +109,4 @@ def run_stress_test(duration_sec=300, log_file='cpu_100percent_log.csv'):
 
 if __name__ == "__main__":
     # Стресс тест на час
-    run_stress_test(duration_sec=1800)
+    run_stress_test(duration_sec=3600)
